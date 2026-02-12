@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Be My Valentine 💘</title>
+  <style>
+    :root{
+      --pink:#ff2e73;
+      --pink2:#ff7aa6;
+      --bg1:#ff4e8b;
+      --bg2:#ffb3c7;
+      --ink:#2b1b22;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh;
+      display:grid; place-items:center;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--ink);
+      background:
+        radial-gradient(900px 600px at 20% 20%, #ffffff55 0%, transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, #ffffff40 0%, transparent 55%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
+      overflow:hidden;
+    }
+    .card{
+      width:min(680px,92vw);
+      background:#ffffffee;
+      border-radius:26px;
+      padding:28px 22px;
+      box-shadow: 0 22px 60px #00000030;
+      text-align:center;
+      position:relative;
+    }
+    .tag{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:999px;
+      background:#fff; box-shadow:0 10px 22px #00000018;
+      font-weight:700;
+    }
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 6px #ff2e7322}
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(32px, 4.6vw, 54px);
+      letter-spacing:-.8px;
+      color:var(--pink);
+    }
+    .sub{
+      margin:0 0 18px;
+      font-size: clamp(15px, 2.2vw, 18px);
+      opacity:.85;
+    }
+    .btns{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:14px;}
+    button{
+      border:0;
+      padding:14px 18px;
+      border-radius:16px;
+      font-weight:900;
+      font-size:18px;
+      cursor:pointer;
+      box-shadow:0 14px 28px #00000020;
+      transition: transform .12s ease, filter .2s ease;
+      min-width: 210px;
+    }
+    button:hover{transform:scale(1.03)}
+    button:active{transform:scale(.99)}
+    .yes{background:linear-gradient(135deg,var(--pink),var(--pink2)); color:#fff;}
+    .yesss{background:linear-gradient(135deg,#6b4bff,#b07cff); color:#fff;}
+    .result{
+      display:none;
+      margin-top:18px;
+      padding:14px 14px;
+      border-radius:16px;
+      background:#fff;
+      border: 2px dashed #ff2e7350;
+      font-size:22px;
+      font-weight:900;
+      color:var(--pink);
+      animation: pop .35s ease forwards;
+    }
+    @keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+    .small{
+      margin-top:10px;
+      font-size:13px;
+      opacity:.65;
+    }
+    /* floating hearts */
+    .heart{
+      position:fixed;
+      top:70vh;
+      left:50vw;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      animation: float 1.8s ease-out forwards;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.18));
+    }
+    @keyframes float{
+      0%{opacity:0; transform:translate(-50%,0) scale(.7)}
+      10%{opacity:1}
+      100%{opacity:0; transform:translate(calc(-50% + var(--x)), -240px) scale(1.4)}
+    }
+    /* confetti */
+    .confetti{
+      position:fixed; inset:0; pointer-events:none; overflow:hidden;
+    }
+    .piece{
+      position:absolute; top:-16px;
+      width:10px; height:14px;
+      border-radius:2px;
+      animation: fall linear forwards;
+      opacity:.95;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(720deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="confetti" id="confetti"></div>
+
+  <main class="card">
+    <div class="tag"><span class="dot"></span> Valentine Proposal</div>
+
+    <h1>Will you be my Valentine? 💘</h1>
+    <p class="sub">Pick the only correct answer 😌</p>
+
+    <div class="btns">
+      <button class="yes" onclick="celebrate()">Yes ❤️</button>
+      <button class="yesss" onclick="celebrate()">OF COURSE YESSSS!!! 💕</button>
+    </div>
+
+    <div class="result" id="result">YAYYY!! You’re Mine &lt;3</div>
+    <div class="small">P.S. screenshot after he clicks 😏</div>
+  </main>
+
+  <script>
+    const result = document.getElementById("result");
+    const confetti = document.getElementById("confetti");
+
+    function heartBurst(){
+      const hearts = ["💖","💘","💞","💕","💗"];
+      for(let i=0;i<26;i++){
+        const h = document.createElement("div");
+        h.className="heart";
+        h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        h.style.left = (Math.random()*100) + "vw";
+        h.style.setProperty("--x", (Math.random()*260 - 130) + "px");
+        h.style.fontSize = (22 + Math.random()*26) + "px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(), 1800);
+      }
+    }
+
+    function confettiPop(){
+      confetti.innerHTML = "";
+      const colors = ["#ff2e73","#ffd166","#06d6a0","#118ab2","#8338ec","#ff7aa6","#ffffff"];
+      const pieces = 120;
+      for(let i=0;i<pieces;i++){
+        const p = document.createElement("div");
+        p.className="piece";
+        p.style.left = (Math.random()*100) + "vw";
+        p.style.background = colors[Math.floor(Math.random()*colors.length)];
+        p.style.width = (8 + Math.random()*8) + "px";
+        p.style.height = (10 + Math.random()*10) + "px";
+        p.style.animationDuration = (2.2 + Math.random()*1.8) + "s";
+        p.style.animationDelay = (Math.random()*0.2) + "s";
+        confetti.appendChild(p);
+      }
+      setTimeout(()=>confetti.innerHTML="", 4200);
+    }
+
+    function celebrate(){
+      result.style.display = "block";
+      heartBurst();
+      confettiPop();
+    }
+  </script>
+</body>
+</html>
